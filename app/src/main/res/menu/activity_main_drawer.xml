@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_aluno"
+            android:icon="@drawable/ic_aluno_24dp"
+            android:title="@string/aluno" />
+        <item
+            android:id="@+id/nav_valor_hora"
+            android:icon="@drawable/ic_monetization_24dp"
+            android:title="@string/valor_hora" />
+        <item
+            android:id="@+id/nav_agenda"
+            android:icon="@drawable/ic_date_24dp"
+            android:title="@string/agenda" />
+        <item
+            android:id="@+id/nav_financeiro"
+            android:icon="@drawable/ic_money_24dp"
+            android:title="@string/financeiro" />
+    </group>
+
+
+
+</menu>

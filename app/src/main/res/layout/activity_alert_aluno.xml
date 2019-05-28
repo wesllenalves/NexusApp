@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="360dp"
+        android:layout_height="200dp"
+        android:clipToPadding="false"
+        android:background="@color/cardview_dark_background"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:text="Inserir"
+            android:id="@+id/btnInserir"
+            android:onClick="inserirAluno"
+            android:padding="5dp"
+        />
+
+        <Button
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+            android:text="Alterar"
+            android:padding="5dp"
+        />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Excluir"
+            android:padding="5dp"
+        />
+
+    </LinearLayout>
+
+</LinearLayout>
