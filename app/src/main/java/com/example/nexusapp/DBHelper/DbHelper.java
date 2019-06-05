@@ -15,33 +15,56 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String NOME_DB = "nexus";
+    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS";
+
     private static final String TABELA_ALUNOS = "alunos";
-    private static final String COLUMNS_ID = "id";
+    private static final String TABELA_AVALIACAO = "avaliacao";
+    private static final String TABELA_EXERCICIO = "Exercicio";
+    private static final String TABELA_TREINO = "Treino";
+    private static final String TABELA_PRESCREVER = "prescrever";
+
+
+    private static final String COLUMNS_IDALUNO = "idAluno";
     private static final String COLUMNS_NOME = "nome";
-    private static final String COLUMNS_DATANASC = "data_nascimento";
+    private static final String COLUMNS_DATANASC = "dataNasc";
     private static final String COLUMNS_EMAIL = "email";
     private static final String COLUMNS_CEL = "celular";
-    private static final String COLUMNS_TELE = "telefone";
-    private static final String COLUMNS_PESO = "peso";
-    private static final String COLUMNS_ALT = "altura";
+    private static final String COLUMNS_CPF = "cpf";
+    private static final String COLUMNS_FK_ENDERECO = "fk_Endereco_idEndereco";
 
 
 
     public DbHelper(Context context)
     {
+
         super(context, NOME_DB, null, VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Query de criação d tabela
-        String sql = "CREATE TABLE IF NOT EXISTS "+TABELA_ALUNOS
-                +" ("+COLUMNS_ID+" INTEGER PRIMARY KEY AUTOINCREMENT , " +
+        String sql = CREATE_TABLE+" "+TABELA_ALUNOS
+                +" ("+COLUMNS_IDALUNO+" INTEGER PRIMARY KEY AUTOINCREMENT , " +
                 COLUMNS_NOME+" VARCHAR, "+COLUMNS_DATANASC+" VARCHAR, "+COLUMNS_EMAIL+" VARCHAR, "+COLUMNS_CEL+" VARCHAR," +
-                COLUMNS_TELE+" VARCHAR, "+COLUMNS_PESO+" VARCHAR, "+COLUMNS_ALT+" VARCHAR);";
+                COLUMNS_CPF+" VARCHAR, COLUMNS_FK_ENDERECO INTEGER);";
+
+        String sqlAvaliacao = CREATE_TABLE + " "+TABELA_AVALIACAO
+                +" ( altura INTEGER, peitoral INTEGER, subescapular INTEGER, triceps INTEGER, axilarM INTEGER, supraIliaca INTEGER,"
+                +"    idAvalia INT PRIMARY KEY, peso INTEGER, femuralM INTEGER,abdominal INTEGER, fk_Aluno_idaluno INTEGER );";
+
+        String sqlExercicio = CREATE_TABLE +" "+TABELA_EXERCICIO+" (nomeExercicio VARCHAR, idExercicio INTEGER PRIMARY KEY, imagemExercicio VARCHAR);";
+
+        String sqlTreino = CREATE_TABLE +" "+TABELA_TREINO+" (tipoTreino VARCHAR, padrao BOOLEAN,idTreino INTEGER PRIMARY KEY);";
+
+        String sqlPrescrever = CREATE_TABLE +" "+TABELA_PRESCREVER+" (fk_Treino_idTreino INTEGER,fk_Exercicio_idExercicio INTEGER,tempoDescanso TIME,peso INTEGER,repeticoes INTEGER,series INTEGER);";
+
 
         try {
             db.execSQL( sql );
+            db.execSQL( sqlAvaliacao );
+            db.execSQL( sqlExercicio );
+            db.execSQL( sqlTreino );
+            db.execSQL( sqlPrescrever );
             Log.i("INFO DB", "Sucesso ao criar a tabela" );
         }catch (Exception e){
             Log.i("INFO DB", "Erro ao criar a tabela" + e.getMessage() );
@@ -51,8 +74,16 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String sql = "DROP TABLE IF EXISTS " + TABELA_ALUNOS + " ; ";
+        String sqlAvaliacao = "DROP TABLE IF EXISTS " + TABELA_AVALIACAO + " ; ";
+        String  sqlExercicio = "DROP TABLE IF EXISTS " + TABELA_EXERCICIO + " ; ";
+        String  sqlTreino = "DROP TABLE IF EXISTS " + TABELA_TREINO + " ; ";
+        String  sqlPrescrever = "DROP TABLE IF EXISTS " + TABELA_PRESCREVER + " ; ";
         try {
             db.execSQL( sql );
+            db.execSQL( sqlAvaliacao );
+            db.execSQL( sqlExercicio );
+            db.execSQL( sqlTreino );
+            db.execSQL( sqlPrescrever );
             onCreate(db);
             Log.i("INFO DB", "Sucesso ao atualizar App" );
         }catch (Exception e){
@@ -96,9 +127,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(COLUMNS_DATANASC, aluno.getDataNasc());
         values.put(COLUMNS_EMAIL, aluno.getEmail());
         values.put(COLUMNS_CEL, aluno.getCel());
-        values.put(COLUMNS_TELE, aluno.getTel());
-        values.put(COLUMNS_PESO, aluno.getPeso());
-        values.put(COLUMNS_ALT, aluno.getAlt());
+        values.put(COLUMNS_CPF, aluno.getCpf());
 
         db.insert(TABELA_ALUNOS, null, values);
         db.close();
@@ -107,8 +136,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public Aluno selectAluno(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABELA_ALUNOS, new String[] {COLUMNS_ID, COLUMNS_NOME, COLUMNS_DATANASC, COLUMNS_EMAIL, COLUMNS_CEL, COLUMNS_TELE, COLUMNS_PESO, COLUMNS_ALT},
-                COLUMNS_ID + " = ?",
+        Cursor cursor = db.query(TABELA_ALUNOS, new String[] {COLUMNS_IDALUNO, COLUMNS_NOME, COLUMNS_DATANASC, COLUMNS_EMAIL, COLUMNS_CEL},
+                COLUMNS_IDALUNO + " = ?",
                 new String[] {String.valueOf(id)}, null, null, null, null);
         if (cursor != null){
             cursor.moveToNext();
@@ -117,8 +146,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Aluno aluno = new Aluno(Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1), cursor.getString(2),
                 cursor.getString(3), cursor.getString(4),
-                cursor.getString(5), cursor.getString(6),
-                cursor.getString(7));
+                cursor.getString(5));
 
         return aluno;
     }
@@ -137,9 +165,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 aluno.setDataNasc(cursor.getString(2));
                 aluno.setEmail(cursor.getString(3));
                 aluno.setCel(cursor.getString(4));
-                aluno.setTel(cursor.getString(5));
-                aluno.setPeso(cursor.getString(6));
-                aluno.setAlt(cursor.getString(7));
+                aluno.setCpf(cursor.getString(5));
                 listaAlunos.add(aluno);
             }while (cursor.moveToNext());
         }

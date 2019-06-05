@@ -13,89 +13,74 @@ import java.util.List;
 
 public class AlunoDAO  {
 
-    private SQLiteDatabase escreve;
-    private SQLiteDatabase le;
+private DbHelper conexao;
+private SQLiteDatabase db;
 
     public AlunoDAO(Context context) {
-        DbHelper db = new DbHelper( context );
-        escreve = db.getWritableDatabase();
-        le = db.getReadableDatabase();
-    }
-    /*
-    @Override
-    public boolean salvar(Aluno aluno) {
-
-        ContentValues cv = new ContentValues();
-        cv.put("nome", aluno.getNome() );
-
-        try {
-            escreve.insert(DbHelper.TABELA_ALUNOS, null, cv );
-            Log.i("INFO", "Tarefa salva com sucesso!");
-        }catch (Exception e){
-            Log.e("INFO", "Erro ao salvar tarefa " + e.getMessage() );
-            return false;
-        }
-
-        return true;
+        conexao = new DbHelper(context);
+        db = conexao.getWritableDatabase();
     }
 
-    @Override
-    public boolean atualizar(Aluno aluno) {
 
-        ContentValues cv = new ContentValues();
-        cv.put("nome", aluno.getNome() );
+    public long SalvarAluno(Aluno aluno){
+        ContentValues values = new ContentValues();
+        values.put("nome", aluno.getNome());
+        values.put("dataNasc", aluno.getDataNasc());
+        values.put("email", aluno.getEmail());
+        values.put("celular", aluno.getCel());
+        values.put("cpf", aluno.getCpf());
 
-        try {
-            String[] args = {aluno.getId().toString()};
-            escreve.update(DbHelper.TABELA_ALUNOS, cv, "id=?", args );
-            Log.i("INFO", "Tarefa atualizada com sucesso!");
-        }catch (Exception e){
-            Log.e("INFO", "Erro ao atualizada tarefa " + e.getMessage() );
-            return false;
-        }
+        long retorno = db.insert("alunos", null, values);
+        db.close();
+        return retorno;
 
-        return true;
     }
 
-    @Override
-    public boolean deletar(Aluno aluno) {
+    public List<Aluno> ListarAlunos(){
+        List<Aluno> listaAlunos = new ArrayList<>();
 
-        try {
-            String[] args = { aluno.getId().toString() };
-            escreve.delete(DbHelper.TABELA_ALUNOS, "id=?", args );
-            Log.i("INFO", "Tarefa removida com sucesso!");
-        }catch (Exception e){
-            Log.e("INFO", "Erro ao remover tarefa " + e.getMessage() );
-            return false;
-        }
+        Cursor cursor = db.query("alunos", new String[]{"idAluno", "nome", "dataNasc","email","celular","email"},null, null,null,null,null);
 
-        return true;
-    }
 
-    @Override
-    public List<Aluno> listar() {
-
-        List<Aluno> alunos = new ArrayList<>();
-
-        String sql = "SELECT * FROM " + DbHelper.TABELA_ALUNOS + " ;";
-        Cursor c = le.rawQuery(sql, null);
-
-        while ( c.moveToNext() ){
-
+        while (cursor.moveToNext()){
             Aluno aluno = new Aluno();
+            aluno.setId(cursor.getInt(0));
+            aluno.setNome(cursor.getString(1));
+            aluno.setDataNasc(cursor.getString(2));
+            aluno.setEmail(cursor.getString(3));
+            aluno.setCel(cursor.getString(4));
+            aluno.setCpf(cursor.getString(5));
+            listaAlunos.add(aluno);
 
-            Long id = c.getLong( c.getColumnIndex("id") );
-            String nomeAluno = c.getString( c.getColumnIndex("nome") );
-
-            aluno.setId( id );
-            aluno.setNome( nomeAluno );
-
-            alunos.add( aluno );
-            Log.i("alunoDao", aluno.getNome() );
         }
+        return listaAlunos;
+    }
 
-        return alunos;
+    public boolean excluir(long idAluno){
 
-    }*/
+        try {
 
+            db.delete("alunos","idAluno = ?", new String[]{String.valueOf(idAluno)});
+
+
+        }catch (Exception e){
+            Log.d("AlunoDao", "Não foi possivel deletar produto" );
+            return false;
+        }finally {
+            if (db != null){
+                db.close();
+            }
+        }
+        return true;
+    }
+
+    public void atualizarAluno(Aluno aluno) {
+        ContentValues values = new ContentValues();
+        values.put("nome", aluno.getNome());
+        values.put("dataNasc", aluno.getDataNasc());
+        values.put("email", aluno.getEmail());
+        values.put("celular", aluno.getCel());
+        values.put("cpf", aluno.getCpf());
+        db.update("alunos",values, "idAluno = ?", new String[]{String.valueOf(aluno.getId())});
+    }
 }

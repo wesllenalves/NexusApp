@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_aluno_vizualizar"
+        android:title="Vizualizar" />
+    <item
+        android:id="@+id/menu_aluno_editar"
+        android:onClick="atualizarAluno"
+        android:title="Editar" />
+    <item
+        android:id="@+id/menu_aluno_excluir"
+        android:onClick="excluirAluno"
+        android:title="Excluir" />
+</menu>

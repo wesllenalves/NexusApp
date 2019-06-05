@@ -13,7 +13,8 @@
         <activity android:name=".FinanceiroActivity" />
         <activity android:name=".AgendaActivity" />
         <activity android:name=".ValorHoraActivity" />
-        <activity android:name=".ListAlunoActivity" />
+        <activity android:name=".ListAlunoActivity"
+            android:parentActivityName=".AlunoActivity"/>
         <activity android:name=".AlunoAddListAltActivity" />
         <activity android:name=".AlunoActivity" />
         <activity

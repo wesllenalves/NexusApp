@@ -101,17 +101,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:textColorHint="@color/orange"
-        >
-
-        <EditText
-            android:id="@+id/inputTel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Telefone Fixo"
-            android:inputType="text"
-            android:textSize="20sp" />
-    </android.support.design.widget.TextInputLayout>
+        />
 
     <!--Peso-->
     <android.support.design.widget.TextInputLayout
@@ -123,11 +113,11 @@
         >
 
         <EditText
-            android:id="@+id/inputPeso"
+            android:id="@+id/inputCpf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Peso"
+            android:hint="CPF"
             android:inputType="numberDecimal"
             android:textSize="20sp" />
     </android.support.design.widget.TextInputLayout>
@@ -139,17 +129,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:textColorHint="@color/orange"
-        >
-
-        <EditText
-            android:id="@+id/inputAlt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Altura"
-            android:inputType="numberDecimal"
-            android:textSize="20sp" />
-    </android.support.design.widget.TextInputLayout>
+        />
 
     <!--Sexo-->
     <RadioGroup

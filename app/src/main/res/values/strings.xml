@@ -18,4 +18,13 @@
     <string name="valor_hora">Valor/Hora</string>
     <string name="agenda">Agenda</string>
     <string name="financeiro">Financeiro</string>
+    <string name="vizualizar">Vizualizar</string>
+    <string name="atualizar">Atualizar</string>
+    <string name="excluir">Excluir</string>
+    <string name="adicionar">adicionar</string>
+    <string name="pesquisar">pesquisar</string>
+    <string name="data_de_nascimento">Data de Nascimento:</string>
+    <string name="e_mail">E-mail:</string>
+    <string name="celular">Celular:</string>
+    <string name="cpf">CPF:</string>
 </resources>

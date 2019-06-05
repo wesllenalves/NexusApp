@@ -8,32 +8,26 @@ public class Aluno implements Serializable {
     private String dataNasc;
     private String email;
     private String cel;
-    private String tel;
-    private String peso;
-    private String alt;
+    private String cpf;
 
     public Aluno() {
     }
 
-    public Aluno(int id, String nome, String dataNasc, String email, String cel, String tel, String peso, String alt) {
+    public Aluno(String nome, String dataNasc, String email, String cel, String cpf) {
+        this.nome = nome;
+        this.dataNasc = dataNasc;
+        this.email = email;
+        this.cel = cel;
+        this.cpf = cpf;
+    }
+
+    public Aluno(int id, String nome, String dataNasc, String email, String cel, String cpf) {
         this.id = id;
         this.nome = nome;
         this.dataNasc = dataNasc;
         this.email = email;
         this.cel = cel;
-        this.tel = tel;
-        this.peso = peso;
-        this.alt = alt;
-    }
-
-    public Aluno(String nome, String dataNasc, String email, String cel, String tel, String peso, String alt) {
-        this.nome = nome;
-        this.dataNasc = dataNasc;
-        this.email = email;
-        this.cel = cel;
-        this.tel = tel;
-        this.peso = peso;
-        this.alt = alt;
+        this.cpf = cpf;
     }
 
     public int getId() {
@@ -76,27 +70,17 @@ public class Aluno implements Serializable {
         this.cel = cel;
     }
 
-    public String getTel() {
-        return tel;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public String getPeso() {
-        return peso;
-    }
+    @Override
+    public String toString(){
 
-    public void setPeso(String peso) {
-        this.peso = peso;
-    }
-
-    public String getAlt() {
-        return alt;
-    }
-
-    public void setAlt(String alt) {
-        this.alt = alt;
+        return nome;
     }
 }
